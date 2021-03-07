@@ -582,6 +582,9 @@ typedef AutoRuleDef = {
 
 	/** Y cell coord modulo **/
 	var yModulo: Int;
+	
+	/** The data for the 'Template' TileMode **/
+	var template:Null<AutoRuleTemplateDef>;
 
 	/** If TRUE, enable Perlin filtering to only apply rule on specific random area **/
 	var perlinActive: Bool;
@@ -593,7 +596,20 @@ typedef AutoRuleDef = {
 	var perlinSeed: Float;
 };
 
-
+/**
+	This complex section isn't meant to be used by game devs at all, as these rules are completely resolved internally by the editor before any saving. You should just ignore this part.
+**/
+@internal
+@section("3.1.1")
+@display("Auto-layer template rule definition")
+typedef AutoRuleTemplateDef = {
+	/** The RuleGroup the Template is based on **/
+	var ruleGroupUUID:Int;
+	/** The TileId used as an 'ancho', all rules from the given RuleGroup are offset by the difference between this tile and the tileId of the Template-Rule **/
+	var tileId:Int;
+	/** The replacements for the IntGrid values, changing the IntGrid values of the rules contained in the RuleGroup **/
+	var replacements:Array<Array<Int>>;
+};
 
 @section("3.2")
 @display("Entity definition")
@@ -932,6 +948,7 @@ enum LayerType {
 enum AutoLayerRuleTileMode {
 	Single;
 	Stamp;
+	Template;
 }
 
 enum AutoLayerRuleCheckerMode {
